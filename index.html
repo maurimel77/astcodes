@@ -1,0 +1,374 @@
+
+<?php
+session_set_cookie_params(0); 
+
+session_start();
+
+// Verifico si la sesion esta iniciada
+if (!isset($_SESSION['usuario'])) {
+    // Si no hay una sesion iniciada, redireccionar al formulario de inicio de sesion
+    header("Location: index.php");
+    exit();
+}
+?>
+ 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home - AST Sistema de Codigos</title>
+    
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/mapa.js"></script>
+	<script src="js/windowres.js"></script>
+    <script src="js/home.js"></script>
+	<script src="js/jquery-3.6.0.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	
+	<link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/home.css">
+    
+    <link rel="stylesheet" href="css/elementos.css">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+    <!-- JavaScript para forzar la recarga de la pagina al cerrar la ventana -->
+    <!--  <script>  var xhr = new XMLHttpRequest();  ......  </script>    -->
+	<!--  <script>    window.onload = function() { checkResolution(); };  ...... </script> -->
+<!-- Leo el numero de solicitud de la base de datos, y le sumo 1 cada vez que se carga la pagina. </script> -->
+
+<!-- Tuve que poner el estilo de imagen de fondo aqui, porque el servidor de github no lee el img con el css -->
+<style>
+body {
+background-image: url("img/bg-home.jpg");
+}
+</style>
+
+<body>
+
+
+
+    <div class="header">
+    <h1>BIENVENIDOS Generacion de Codigos AST</h1>
+    </div>
+
+<!-- Contenedor principal del sitio -->
+<div class="row">
+
+  <div class="col-2-5 col-s-2-5 menu">
+    <ul>
+      <!-- Elementos del menu lateral izquierdo -->
+      <li><button class="boton red">Cerrar sesion</button></li>
+      <li>Seleccion de Codigo</li>
+      <li> <button class="a_demo_two" onclick="showCamposItem01('SETA')">Subestaciones</button> </li>
+      <li> <button class="a_demo_two" onclick="showCamposItem02('AMMT')">Aparatos Maniobra MT</button> </li>
+      <li> <button class="a_demo_two" onclick="showCamposItem03('CCAS')">Cables subterraneos</button>  </li>
+      
+      <br></br>
+      <li><button class="btn boton-send green" id="enviarQuery">GENERAR CODIGO</button></li>
+      
+    </ul>
+  </div>
+
+
+  <div class="col-4-5 col-s-6">
+    <div class="center">
+        <h2>Datos de la obra</h2>
+        <div class="input-container"><p>Expediente / SAP</p> <input id="expediente" class="input-default" type="text" placeholder="Ingrese Expediente o SAP"></div>
+        <div class="input-container"><p>Sector</p> <input id="sector" class="input-default" type="text" placeholder="(opcional)"></div>
+        <div class="input-container"><p>Ref. electrica</p> <input id="refelectrica" class="input-default" type="text" placeholder="ref. electrica: SETA, Aparato Maniobra, etc"></div>
+		<div class="input-container"><p>Razon social</p> <input id="razon" class="input-default" type="text" placeholder="Nombre o razon social del cliente."></div>
+		<div class="input-container"><p>NIC</p> <input id="nic" class="input-default" type="text" placeholder="Obligatorio para codigos de Clientes MT, etc."></div>
+		<div class="input-container"><p>NIS</p> <input id="nis" class="input-default" type="text" placeholder="Obligatorio para codigos de Clientes MT, etc."></div>
+        <div class="input-container"><p>Localidad</p><select id="localidad" class="desplegable">
+                <option value="1">Guaymallen</option>
+                <option value="2">Las Heras</option>
+                <option value="3">Lavalle</option>
+                <option value="4">Lujan</option>
+                <option value="5">Maipu</option>
+                <option value="6">Malargue</option>
+                <option value="7">Mendoza</option>
+                <option value="8">Tunuyan</option>
+                <option value="9">Tupungato</option>
+                <option value="10">San Carlos</option>
+                <option value="11">San Rafael</option>
+            </select></div>    
+        <div class="input-container"><p>Direccion</p> <input id="direccion" class="input-default" type="text" placeholder="Escriba la direccion"></div>
+		<div class="input-container"><p>Coordenadas</p> <input id="coordenadas" class="input-default" type="text" placeholder="Ingrese coordenadas o seleccione en el mapa"></div>	
+      <p>Opcion indicar coordenadas desde mapa</p>
+
+
+      <button class="boton blue" onclick="toggleMap()">Abrir Mapa</button>
+          <div id="map-container" ontransitionend="handleTransitionEnd()">
+              <div id="map"></div>
+          </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-4-5 col-s-6 margen-vertical">
+  
+      <div class="aside">
+      <h2>Datos Codigo</h2>
+      </div>
+   
+    <div id="campos_item_1" class="hidden">
+      <!-- Titulos y textos de la barra lateral derecha -->
+      <p>Distribuidor: </p>
+      <p>Seleccion CAS: </p>
+      <p>Seleccion ApMn: </p>
+      <h2>Titulo right</h2>
+      <p>Bloque txt right sidebar</p>
+    </div>      
+ 
+    <div id="campos_item_2" class="hidden">
+      <!-- Titulos y textos de la barra lateral derecha -->
+      <p class="titulo-aside">Aparato de Maniobra MT</p>
+      <!-- <p>Tipo de Aparato de Maniobra:</p>  -->
+	          <div class="input-container-aside"><p>Tipo de Aparato de Maniobra:</p><select id="item-ammt" class="desplegable">
+                <option value="1">Cuchillas</option>
+                <option value="2">MN242</option>
+                <option value="3">Puentes</option>
+                <option value="4">Interruptor</option>
+                <option value="5">Celda</option>
+                <option value="6">Acoplamiento</option>
+            </select></div>
+	  <div class="input-container-aside">
+	  <p>Observaciones:</p>
+	  <textarea id="observaciones" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+  	  </div>
+    </div>
+
+    <div id="campos_item_3" class="hidden">
+      <!-- Titulos y textos de la barra lateral derecha -->
+      <p class="titulo-aside">Cables Subterraneos CAS</p>
+
+			  
+			  <div><p>Seleccion:</p>
+	  
+	          <div class="input-container-aside"><p>Cantidad de polos:</p><select id="cantidad-polos" class="desplegable">
+                <option value="Tripolar">Tripolar</option>
+                <option value="Unipolar">Unipolar</option>
+				<option value="Tetrapolar">Tetrapolar</option>
+				</select></div>
+
+<!--	          <div id="nivel-tension" class="input-container-aside"><p>Nivel de tension:</p><select class="desplegable">     -->
+	          <div class="input-container-aside"><p>Nivel de tension:</p><select id="nivel-tension" class="desplegable">
+                <option value="MT">MT</option>
+                <option value="BT">BT</option>
+				<option value="AT">AT</option>
+				</select></div>
+				
+	          <div class="input-container-aside"><p>Seccion fase(s):</p><select class="desplegable">
+                <option value="1">35</option>
+                <option value="2">50</option>
+				<option value="3">70</option>
+				<option value="4">95</option>
+				<option value="5">120</option>
+				<option value="6">150</option>
+				<option value="7">185</option>
+				<option value="8">300</option>
+				<option value="9"></option>
+				<option value="10"></option>
+				</select></div>
+				
+	          <div id="seccion-neutro-container" class="input-container-aside hidden"><p>Seccion Neutro (BT):</p><select class="desplegable">
+                <option value="1">16</option>
+                <option value="2">25</option>
+				<option value="3">35</option>
+				<option value="4">50</option>
+				<option value="5">70</option>
+				<option value="6">95</option>
+				<option value="7">120</option>
+				<option value="8">150</option>
+				<option value="9">300</option>
+				<option value="10">400</option>
+				</select></div>
+				
+	          <div class="input-container-aside"><p>Seleccion Material</p><select class="desplegable">
+                <option value="1">Al</option>
+                <option value="2">Cu</option>
+				</select></div>
+				
+			  <div class="input-container-aside"><p>Origen/Destino</p> <input id="origen" class="input-default" type="text" placeholder="Indicar origen y/o destino del CAS."></div>
+				
+			  <div class="input-container-aside">
+			  <p>Observaciones:</p>
+			  <textarea class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+			  </div>
+    </div>
+    
+
+    
+  </div>
+</div>   <!-- Contenedor principal del sitio END -->
+
+
+
+
+
+
+
+    
+
+    <script>
+    var usuario     = "<?php echo $_SESSION['usuario']; ?>";
+
+    var fechaHoraUTC = new Date();
+
+
+    fechaHoraUTC.setHours(fechaHoraUTC.getHours() - 3);
+    var horaActual = fechaHoraUTC.toISOString().slice(11, 19);  
+
+    fechaHoraUTC.setTime(fechaHoraUTC.getTime() - 3 * 60 * 60 * 1000); 
+    var fechaActual = fechaHoraUTC.toISOString().slice(0, 10); 
+
+
+//item inicialmente esta vacio, toma el valor que se le asigna al presionar los botones de menu
+    var datos = {
+	idnum: '',
+	solicitud: '',	
+	item: '',
+	codlocalidad: '',
+	coditem: '',
+	subitem1: '',
+	subitem2: '',
+	subitem3: '',
+	subitem4: '',
+	codigo: '',
+	contador: '',
+	localidad: '',
+	expediente:'',
+	direccion: '',
+    latitud: latitude,
+    longitud: longitude,
+	coordenadas: '',
+	refelectrica: '',
+    fecha: fechaActual,
+    hora: horaActual,
+	estado: 'Activo',
+	utilizado: 'Si',
+	solicitante: usuario,
+	nic: '',
+	nis:'',
+	observaciones: '',
+	sector: '',
+	razonsocial: ''
+    };  // Agregar todos los campos que falta
+
+
+document.getElementById('enviarQuery').addEventListener('click', function() {
+	
+if(	(usuario != 'guest') && (usuario != 'invitado') )
+{
+	
+	//datos.idnum = leer_id();
+	
+	//todo este codigo lo dejo comentado para el demo.
+	/*
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'obtener_contador.php?codlocalidad=' + datos.codlocalidad, false); // Solicitud sincronica
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var contador = parseInt(xhr.responseText);
+
+				console.log('Codigo actualizado:', datos.codigo);
+
+                // Actualizar el contador en la base de datos
+                actualizarContador();
+				
+				cargaDatosComunes();
+
+                var xhrEnviar = new XMLHttpRequest();
+                xhrEnviar.open('POST', 'actualizar_db.php', false);
+                xhrEnviar.setRequestHeader('Content-Type', 'application/json');
+
+                console.log("Datos a enviar:", datos); //debug
+				
+				guardarJSON();	//llama la funcion guardarJSON que esta en home.js
+
+                xhrEnviar.onreadystatechange = function() {
+                    if (xhrEnviar.readyState === XMLHttpRequest.DONE) {
+                        if (xhrEnviar.status === 200) {
+                            console.log('Datos enviados correctamente');
+                            document.getElementById("status-display").innerHTML = "Datos enviados correctamente";
+                        } else {
+                            console.error('Error al enviar datos');
+                        }
+                    }
+                };
+                xhrEnviar.send(JSON.stringify(datos));
+            } else {
+                console.error('Error al obtener el contador');
+            }
+        }
+    };
+    xhr.send();
+	*/
+	
+	//Forma super facil de mostrar un popup con un dato (ver curso JS CISCO)
+	//window.alert("Codigo generado:  ***  " + datos.codigo +"  ***");	
+	//window.open('popup.html', '', 'popup=true');    //codigo para abrir un html en ventana nueva, muy bueno
+	
+	//dialogoCodigos();
+	
+	
+	$(document).ready(function() {
+    dialogoCodigos(); // Llamar a la funcion para configurar el dialogo
+    $("#codigos").dialog("open"); // Abrir el dialogo automaticamente
+	});
+	
+	
+	
+} //fin del if usuario != guest
+
+else{
+	//window.alert("*** ATENCION: No tiene privilegios para generar codigos ***");
+	$(document).ready(function() {
+    dialogoPrivilegios(); // Llamar a la función para configurar el dialogo
+    $("#privilegios").dialog("open"); // Abrir el diálogo automaticamente
+	});
+}
+
+	
+});
+</script>
+
+
+<div id="privilegios" title="ATENCION" style="display: none;">
+<!--
+<p id="msg-popup" >ATENCION: No tiene privilegios para generar codigos</p>
+-->
+<!-- tuve que incrustar estilo en la linea porque no carga en el CSS, verlo luego. -->
+<p id="msg-popup-atencion" style="font-size: 0.85em; padding-bottom: 20px;">No tiene privilegios para generar codigos</p>
+
+  <button id="cerrar-button" class="boton blue">Cerrar</button>
+</div>
+
+
+
+<div id="codigos" title="MENSAJE" style="display: none;">
+<!-- tuve que incrustar estilo en la linea porque no carga en el CSS, verlo luego. -->
+<p id="msg-popup-codigos" style="font-size: 0.85em; padding-bottom: 20px;"></p> <!-- Dejo vacio el contenido de esta etiqueta parrafo <p> porque la rellena desde el home.js la funcion con el innerHTML -->
+
+  <button id="ok-button" class="boton blue">Cerrar</button>
+</div>
+
+
+
+
+    <div class="status-bar">
+    <p id="status-display"></p>
+    </div>
+
+    <div class="footer">
+    <p>Sistema de generacion de codigos EDEMSA - AST -- 2024</p>
+    </div>
+
+</body>
+</html>
