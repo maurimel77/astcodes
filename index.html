@@ -57,154 +57,229 @@ background-image: url("img/bg-home.jpg");
 <!-- Contenedor principal del sitio -->
 <div class="row">
 
-  <div class="col-2-5 col-s-2-5 menu">
-    <ul>
-      <!-- Elementos del menu lateral izquierdo -->
-      <li><button class="boton red">Cerrar sesion</button></li>
-      <li>Seleccion de Codigo</li>
-      <li> <button class="a_demo_two" onclick="showCamposItem01('SETA')">Subestaciones</button> </li>
-      <li> <button class="a_demo_two" onclick="showCamposItem02('AMMT')">Aparatos Maniobra MT</button> </li>
-      <li> <button class="a_demo_two" onclick="showCamposItem03('CCAS')">Cables subterraneos</button>  </li>
-      
-      <br></br>
-      <li><button class="btn boton-send green" id="enviarQuery">GENERAR CODIGO</button></li>
-      
-    </ul>
-  </div>
-
-
-  <div class="col-4-5 col-s-6">
-    <div class="center">
-        <h2>Datos de la obra</h2>
-        <div class="input-container"><p>Expediente / SAP</p> <input id="expediente" class="input-default" type="text" placeholder="Ingrese Expediente o SAP"></div>
-        <div class="input-container"><p>Sector</p> <input id="sector" class="input-default" type="text" placeholder="(opcional)"></div>
-        <div class="input-container"><p>Ref. electrica</p> <input id="refelectrica" class="input-default" type="text" placeholder="ref. electrica: SETA, Aparato Maniobra, etc"></div>
-		<div class="input-container"><p>Razon social</p> <input id="razon" class="input-default" type="text" placeholder="Nombre o razon social del cliente."></div>
-		<div class="input-container"><p>NIC</p> <input id="nic" class="input-default" type="text" placeholder="Obligatorio para codigos de Clientes MT, etc."></div>
-		<div class="input-container"><p>NIS</p> <input id="nis" class="input-default" type="text" placeholder="Obligatorio para codigos de Clientes MT, etc."></div>
-        <div class="input-container"><p>Localidad</p><select id="localidad" class="desplegable">
-                <option value="1">Guaymallen</option>
-                <option value="2">Las Heras</option>
-                <option value="3">Lavalle</option>
-                <option value="4">Lujan</option>
-                <option value="5">Maipu</option>
-                <option value="6">Malargue</option>
-                <option value="7">Mendoza</option>
-                <option value="8">Tunuyan</option>
-                <option value="9">Tupungato</option>
-                <option value="10">San Carlos</option>
-                <option value="11">San Rafael</option>
-            </select></div>    
-        <div class="input-container"><p>Direccion</p> <input id="direccion" class="input-default" type="text" placeholder="Escriba la direccion"></div>
-		<div class="input-container"><p>Coordenadas</p> <input id="coordenadas" class="input-default" type="text" placeholder="Ingrese coordenadas o seleccione en el mapa"></div>	
-      <p>Opcion indicar coordenadas desde mapa</p>
-
-
-      <button class="boton blue" onclick="toggleMap()">Abrir Mapa</button>
-          <div id="map-container" ontransitionend="handleTransitionEnd()">
-              <div id="map"></div>
-          </div>
+    <!-- Columna para el menu lateral izquierdo en pantallas grandes (col-3) y en dispositivos pequenos (col-s-3) -->
+    <!--  <div class="col-2-3 col-s-3 menu">   -->
+    <div class="col-2-5 col-s-2-5 menu">
+        <ul>
+            <!-- Elementos del menu lateral izquierdo -->
+            <li><button class="boton red" onclick=cerrarSesion()>Cerrar sesion</button></li>
+            <li>Seleccion de Codigo</li>
+            <li> <button class="a_demo_two" onclick="showCamposItem01('SETA')">Subestaciones</button> </li>
+            <li> <button class="a_demo_two" onclick="showCamposItem02('AMMT')">Aparatos Maniobra MT</button> </li>
+            <li> <button class="a_demo_two" onclick="showCamposItem03('CCAS')">Cables subterraneos</button>  </li>
+            <li> <button class="a_demo_two" onclick="showCamposItem04('EMPA')">Empalmes</button>  </li>
+            <li> <button class="a_demo_two" onclick="showCamposItem05('CGAN')">GAN</button>  </li>
+            <br></br>
+            <li><button class="btn boton-send green" id="enviarQuery">GENERAR CODIGO</button></li>        
+        </ul>
     </div>
-  </div>
 
+    <!-- Columna principal del contenido en pantallas grandes (col-6) y en dispositivos pequenos (col-s-9) -->
+    <!--  <div class="col-6 col-s-9">   -->
 
+    <!--  C O N T E N E D O R    C E N T R A L  -->
+    <div class="col-4-5 col-s-6">
+        <div class="center">
+            <h2>Datos de la obra</h2>
+            <div class="input-container"><p>Novedad</p> <input id="novedad" class="input-default" type="text" placeholder="Ingrese Numero de Novedad"></div>
+            <div class="input-container"><p>Expediente / SAP</p> <input id="expediente" class="input-default" type="text" placeholder="Ingrese Expediente o SAP"></div>
+            <div class="input-container"><p>Sector</p> <input id="sector" class="input-default" type="text" placeholder="(opcional)"></div>
+            <div class="input-container"><p>Ref. electrica</p> <input id="refelectrica" class="input-default" type="text" placeholder="ref. electrica: SETA, Aparato Maniobra, etc"></div>
+            <div class="input-container"><p>Razon social</p> <input id="razon" class="input-default" type="text" placeholder="Nombre o razon social del cliente."></div>
+            <div class="input-container"><p>NIC</p> <input id="nic" class="input-default" type="text" placeholder="Obligatorio para codigos de Clientes MT, etc."></div>
+            <div class="input-container"><p>NIS</p> <input id="nis" class="input-default" type="text" placeholder="Obligatorio para codigos de Clientes MT, etc."></div>
+            <div class="input-container"><p>Localidad</p><select id="localidad" class="desplegable">
+                    <option value="1">Guaymallen</option>
+                    <option value="2">Las Heras</option>
+                    <option value="3">Lavalle</option>
+                    <option value="4">Lujan</option>
+                    <option value="5">Maipu</option>
+                    <option value="6">Malargue</option>
+                    <option value="7">Mendoza</option>
+                    <option value="8">Tunuyan</option>
+                    <option value="9">Tupungato</option>
+                    <option value="10">San Carlos</option>
+                    <option value="11">San Rafael</option>
+                    </select>
+            </div>    
+            <div class="input-container"><p>Direccion</p> <input id="direccion" class="input-default" type="text" placeholder="Escriba la direccion"></div>
+            <div class="input-container"><p>Coordenadas</p> <input id="coordenadas" class="input-default" type="text" placeholder="Ingrese coordenadas o seleccione en el mapa"></div>	
+            <p>Opcion indicar coordenadas desde mapa</p>
+            <!-- <br></br> -->
+            <!-- <button class="btn" onclick="toggleMap()">Abrir Mapa</button>  -->
+            <button class="boton blue" onclick="toggleMap()">Abrir Mapa</button>
+            <div id="map-container" ontransitionend="handleTransitionEnd()">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
 
-  <div class="col-4-5 col-s-6 margen-vertical">
-  
-      <div class="aside">
-      <h2>Datos Codigo</h2>
-      </div>
+    <!-- Columna para la barra lateral derecha en pantallas grandes (col-3) y en dispositivos pequenos (col-s-12) -->
+    <!--  <div class="col-3 col-s-12">   -->
+    <div class="col-4-5 col-s-6 margen-vertical">
+        <!--
+        <div class="aside">
+        <button class="btn boton green" id="enviarQuery">Generar Codigo</button>
+        </div>   -->
+        <div class="aside">
+            <h2>Datos Codigo</h2>
+        </div>
    
-    <div id="campos_item_1" class="hidden">
-      <!-- Titulos y textos de la barra lateral derecha -->
-      <p>Distribuidor: </p>
-      <p>Seleccion CAS: </p>
-      <p>Seleccion ApMn: </p>
-      <h2>Titulo right</h2>
-      <p>Bloque txt right sidebar</p>
-    </div>      
+        <div id="campos_item_1" class="hidden">
+            <!-- Titulos y textos de la barra lateral derecha -->
+            <p class="titulo-aside">Centros de Transformacion (CT, SETA)</p>
+            <!-- <p>Tipo de Aparato de Maniobra:</p>  -->
+                    <div class="input-container-aside"><p>Tipo de Estacion Transformadora:</p><select id="item-seta" class="desplegable">
+                        <option value="1">CN250</option>
+                        <option value="2">CN248-HA</option>
+                        <option value="3">CN248-HA-MADERA</option>
+                        <option value="4">CN247-HA</option>
+                        <option value="5">CN250-APTA5000K</option>
+                        <option value="6">CN251</option>
+                        <option value="7">CN251-VELA</option>
+                        <option value="8">CN276-HA</option>
+                        <option value="9">CN276-HA-MADERA</option>
+                        <option value="10">CAMARA-NIVEL</option>
+                        <option value="11">CAMARA-SUBTER</option>
+                        </select>
+                    </div>
+            <div class="input-container-aside">
+                <p>Observaciones:</p>
+                <textarea id="observaciones1" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+            </div>
+        </div>     
  
-    <div id="campos_item_2" class="hidden">
-      <!-- Titulos y textos de la barra lateral derecha -->
-      <p class="titulo-aside">Aparato de Maniobra MT</p>
-      <!-- <p>Tipo de Aparato de Maniobra:</p>  -->
-	          <div class="input-container-aside"><p>Tipo de Aparato de Maniobra:</p><select id="item-ammt" class="desplegable">
-                <option value="1">Cuchillas</option>
-                <option value="2">MN242</option>
-                <option value="3">Puentes</option>
-                <option value="4">Interruptor</option>
-                <option value="5">Celda</option>
-                <option value="6">Acoplamiento</option>
-            </select></div>
-	  <div class="input-container-aside">
-	  <p>Observaciones:</p>
-	  <textarea id="observaciones" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
-  	  </div>
-    </div>
+
+
+        <div id="campos_item_2" class="hidden">
+        <!-- Titulos y textos de la barra lateral derecha -->
+        <p class="titulo-aside">Aparato de Maniobra MT</p>
+        <!-- <p>Tipo de Aparato de Maniobra:</p>  -->
+                <div class="input-container-aside"><p>Tipo de Aparato de Maniobra:</p><select id="item-ammt" class="desplegable">
+                    <option value="1">Cuchillas</option>
+                    <option value="2">MN242</option>
+                    <option value="3">Puentes</option>
+                    <option value="4">Interruptor</option>
+                    <option value="5">Celda</option>
+                    <option value="6">Acoplamiento</option>
+		    <option value="7">Cuernos</option>
+                </select></div>
+        <div class="input-container-aside">
+        <p>Observaciones:</p>
+        <textarea id="observaciones2" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+        </div>
+        </div>
+
+
 
     <div id="campos_item_3" class="hidden">
-      <!-- Titulos y textos de la barra lateral derecha -->
-      <p class="titulo-aside">Cables Subterraneos CAS</p>
-
+                <!-- Titulos y textos de la barra lateral derecha -->
+                <p class="titulo-aside">Cables Subterraneos CAS</p>
 			  
-			  <div><p>Seleccion:</p>
+			    <div><p>Seleccion:</p>
 	  
-	          <div class="input-container-aside"><p>Cantidad de polos:</p><select id="cantidad-polos" class="desplegable">
-                <option value="Tripolar">Tripolar</option>
-                <option value="Unipolar">Unipolar</option>
-				<option value="Tetrapolar">Tetrapolar</option>
-				</select></div>
+                    <div class="input-container-aside"><p>Cantidad de polos:</p><select id="cantidad-polos" class="desplegable">
+                        <option value="Tripolar">Tripolar</option>
+                        <option value="Unipolar">Unipolar</option>
+                        <option value="Tetrapolar">Tetrapolar</option>
+                        </select>
+                    </div>
 
-<!--	          <div id="nivel-tension" class="input-container-aside"><p>Nivel de tension:</p><select class="desplegable">     -->
-	          <div class="input-container-aside"><p>Nivel de tension:</p><select id="nivel-tension" class="desplegable">
-                <option value="MT">MT</option>
-                <option value="BT">BT</option>
-				<option value="AT">AT</option>
-				</select></div>
-				
-	          <div class="input-container-aside"><p>Seccion fase(s):</p><select class="desplegable">
-                <option value="1">35</option>
-                <option value="2">50</option>
-				<option value="3">70</option>
-				<option value="4">95</option>
-				<option value="5">120</option>
-				<option value="6">150</option>
-				<option value="7">185</option>
-				<option value="8">300</option>
-				<option value="9"></option>
-				<option value="10"></option>
-				</select></div>
-				
-	          <div id="seccion-neutro-container" class="input-container-aside hidden"><p>Seccion Neutro (BT):</p><select class="desplegable">
-                <option value="1">16</option>
-                <option value="2">25</option>
-				<option value="3">35</option>
-				<option value="4">50</option>
-				<option value="5">70</option>
-				<option value="6">95</option>
-				<option value="7">120</option>
-				<option value="8">150</option>
-				<option value="9">300</option>
-				<option value="10">400</option>
-				</select></div>
-				
-	          <div class="input-container-aside"><p>Seleccion Material</p><select class="desplegable">
-                <option value="1">Al</option>
-                <option value="2">Cu</option>
-				</select></div>
-				
-			  <div class="input-container-aside"><p>Origen/Destino</p> <input id="origen" class="input-default" type="text" placeholder="Indicar origen y/o destino del CAS."></div>
-				
-			  <div class="input-container-aside">
-			  <p>Observaciones:</p>
-			  <textarea class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
-			  </div>
+                    <!--	 <div id="nivel-tension" class="input-container-aside"><p>Nivel de tension:</p><select class="desplegable">     -->
+                    <div class="input-container-aside"><p>Nivel de tension:</p><select id="nivel-tension" class="desplegable">
+                        <option value="MT">MT</option>
+                        <option value="BT">BT</option>
+                        <option value="AT">AT</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-container-aside"><p>Seccion fase(s):</p><select id="seccion-fases" class="desplegable">
+                        <option value="1">35</option>
+                        <option value="2">50</option>
+                        <option value="3">70</option>
+                        <option value="4">95</option>
+                        <option value="5">120</option>
+                        <option value="6">150</option>
+                        <option value="7">185</option>
+                        <option value="8">240</option>
+                        <option value="9">300</option>
+                        <option value="10">400</option>
+                        </select>
+                    </div>
+                    
+                    <div id="seccion-neutro-container" class="input-container-aside hidden"><p>Seccion Neutro (BT):</p><select id="seccion-neutro" class="desplegable">
+                        <option value="1">16</option>
+                        <option value="2">25</option>
+                        <option value="3">35</option>
+                        <option value="4">50</option>
+                        <option value="5">70</option>
+                        <option value="6">95</option>
+                        <option value="7">120</option>
+                        <option value="8">150</option>
+                        <option value="9">185</option>
+                        <option value="10">240</option>
+			<option value="11">300</option>
+			<option value="12">400</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-container-aside"><p>Seleccion Material</p><select id="material" class="desplegable">
+                        <option value="1">Al</option>
+                        <option value="2">Cu</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-container-aside"><p>Origen/Destino</p><input id="origen" class="input-default" type="text" placeholder="Indicar origen y/o destino del CAS.">
+                    </div>
+                    
+                    <div class="input-container-aside">
+                        <p>Observaciones:</p>
+                        <textarea id="observaciones3" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+                    </div>
+                </div>
     </div>
     
 
+
+
+    <div id="campos_item_4" class="hidden">
+        <p class="titulo-aside">Empalmes</p>
+	            <div class="input-container-aside"><p>Tipo de Empalme</p><select id="item-empa" class="desplegable">
+                    <option value="1">MT</option>
+                    <option value="2">BT</option>
+                    <option value="3">AT</option>
+                    </select>
+                </div>
+	    <div class="input-container-aside">
+	        <p>Observaciones:</p>
+	        <textarea id="observaciones4" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+  	    </div>
+    </div>
+
+
+
+    <div id="campos_item_5" class="hidden">
+        <!-- Titulos y textos de la barra lateral derecha -->
+        <p class="titulo-aside">GAN</p>
+        <!-- <p>Tipo de Aparato de Maniobra:</p>  -->
+                <div class="input-container-aside"><p>Tipo de GAN:</p><select id="item-cgan" class="desplegable">
+                    <option value="1">GAN 4 vias</option>
+                    <option value="2">GAN 6 vias</option>
+                </select></div>
+        <div class="input-container-aside">
+        <p>Observaciones:</p>
+        <textarea id="observaciones5" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
+        </div>
+        </div>
+      <!-- <button id="enviarUsuario">Enviar Usuario</button>  -->
+
+
+    
     
   </div>
-</div>   <!-- Contenedor principal del sitio END -->
+</div>  
+ <!-- Contenedor principal del sitio END -->
+
 
 
 
