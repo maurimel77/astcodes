@@ -1,69 +1,4 @@
 
-/*
-		//console.log("Ingrese al script");	//debug
-		var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'logout.php', false);  // Solicitud sincrona para asegurar que se ejecute antes de cerrar la ventana
-        xhr.send();
-
-function cerrarSesion() {
-            window.location.href = 'logout.php';
-        }
-*/
-
-
-/*
-function leerNumSolicitud() {
-    var xhr = new XMLHttpRequest();
-    var solicitud; 
-	var url = 'obtener_num_solicitud.php?solicitud=' + solicitud;
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var solicitud = parseInt(xhr.responseText);
-                solicitud = solicitud + 1;
-                console.log('Solicitud Numero:', solicitud);
-            } else {
-                console.error('Error al obtener el contador');
-            }
-        }
-    };
-    xhr.send();
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    leerNumSolicitud();
-});
-*/
-
-
-/*
-function leer_id() {
-	var idnumber;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'obtener_id.php', false); // Solicitud sincronica, habia copiado un ejemplo de codigo donde lo ponian asincrono, pero no funcionaba, no se enviaba el numero idnumber. 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var responseText = xhr.responseText;
-                var last_id = responseText.match(/\d+/); // Extraigo el numero de la respuesta
-				idnumber = last_id[0];
-                console.log('50: Numero id DB:', idnumber);
-            } else {
-                console.error('Error al obtener el numero de id');
-            }
-        }
-    };
-    xhr.send();
-	
-	return idnumber;
-}
-*/
-
-
-//Funciones para ajustar el zoom del navegador si la resolucion en altura del monitor es menor o igual a 960 px
-/* lo mande al windowres.js */
-
 //Funcion para mostrar salida por status bar
 function mostrar_mensaje_status_bar(texto) {
     console.log("mostrando");  //a modo de debug
@@ -82,25 +17,13 @@ function showCamposItem01(itemValue) {
 
 
 
-/***************************************
 
-
-
-VER COMO RESOLVER PARA GENERAR UN NUMERO 
-DE SOLICITUD HASTA QUE CIERREN SESION
-
-
-
-*****************************************/
 
 function showCamposItem02(itemValue) {
-	//datos.item = 'AMMT';
-	//datos.solicitud = solicitud;
-	//datos.idnum = leer_id();  console.log("100: datos.idnum = ", datos.idnum);
+	
 	datos.item = itemValue; console.log("item: ", itemValue);
-	const coditem = 'M';	//Para AMMT agrega el codigo de item = M. 
-	//var localidades = actualizarCodLocalidad(); // Llamada a la funcion actualizarCodLocalidad
-	datos.codlocalidad = actualizarCodLocalidad();	// Llamada a la funcion actualizarCodLocalidad	//datos.codlocalidad = localidades.codlocalidad;	console.log("datos.codlocaliad linea 69: ", localidades.codlocalidad)	//datos.localidad = localidades.localidad;		console.log("localidades.localidad linea 70: ", localidades.localidad)
+	const coditem = 'M';	
+	datos.codlocalidad = actualizarCodLocalidad();	
 	switch (datos.codlocalidad) {
 			case 'G':	datos.localidad = 'Guaymallen';	console.log("121: localidad = ", datos.localidad);  break;
 			case 'H':	datos.localidad = 'Las Heras';	break;
@@ -115,8 +38,7 @@ function showCamposItem02(itemValue) {
 			case 'Z':	datos.localidad = 'San Rafael';	break;
 			default:	datos.localidad = 'Guaymallen';		
 		}
-	//este mismo switch / case lo puse tambien en la funcion de actualizacion de la localidad con el menu desplegable, sino no se 
-	//actualizaban las localidades cuando cambiaban desde el menu.
+	
 	
 	datos.coditem = coditem;	console.log("coditem: ", coditem);
 	datos.subitem1 = actualizar_subitem_ammt();	//actualiza en la variable la seleccion del item.
@@ -124,11 +46,11 @@ function showCamposItem02(itemValue) {
 	//datos.localidad = localidad;
 	
 	
-    document.getElementById('campos_item_2').classList.remove('hidden');	//muestra el menu 2, que es el de los AMMT
+    document.getElementById('campos_item_2').classList.remove('hidden');	
     document.getElementById('campos_item_2').classList.add('aside');
-    document.getElementById('campos_item_1').classList.add('hidden');		//oculta el resto de los menus (menu 1 en este caso)
-    document.getElementById('campos_item_3').classList.add('hidden');		//oculta el resto de los menus
-    /*console.log("entre a show campos item 02");*/ 	console.log("Codigo de item: ", coditem);
+    document.getElementById('campos_item_1').classList.add('hidden');		
+    document.getElementById('campos_item_3').classList.add('hidden');		
+    console.log("Codigo de item: ", coditem);
 	
 	return datos.localidad;
 }
@@ -146,8 +68,7 @@ function showCamposItem03(itemValue) {
 
 //Funciones para asignar una letra de localidad, a cada localidad elegida desde el menu desplegable
  function actualizarCodLocalidad() {
-    //var localidad = selectedOption ? selectedOption.value : '1'; // Valor predeterminado '1' para 'Guaymallen'
-	//var codlocalidad = selectedOption ? selectedOption.value : '11'; // Valor predeterminado '1' para 'Guaymallen'
+
     var codlocalidad = '11'; // fijo este valor para la demo.
 	var selectedOption = document.getElementById('localidad').options[document.getElementById('localidad').selectedIndex];
 
@@ -170,44 +91,13 @@ function showCamposItem03(itemValue) {
     console.log('variable codlocalidad:', codlocalidad);
 	console.log('variable localidad:', localidad);
 	
-	/*
-	//todo este codigo lo dejo comentado para el demo.
-	    // Obtengo contador para la localidad seleccionada
-    var xhr = new XMLHttpRequest();
-    var url = 'obtener_contador.php?codlocalidad=' + codlocalidad + '&item=' + datos.item; 
-    xhr.open('GET', url, false); // Solicitud sincronica
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var contador = xhr.responseText;
-                datos.contador = contador;
-                console.log('136 Contador obtenido:', contador);
-				
-				// Actualizo el codigo con la nueva localidad y contador
-                if (datos.item === 'AMMT') {
-                    datos.codigo = codlocalidad + 'M' + contador.toString().padStart(6, '0');
-                } else {
-                    datos.codigo = codlocalidad + datos.item + contador.toString().padStart(6, '0');
-                }
-                console.log('Codigo actualizado en home.js:', datos.codigo);
-				
-				
-            } else {
-                console.error('Error al obtener el contador');
-            }
-        }
-    };
-    xhr.send();
-	*/
-	
-	//return { codlocalidad: codlocalidad, localidad: localidad };
+
     return codlocalidad;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('localidad').addEventListener('change', function() {
-        datos.codlocalidad = actualizarCodLocalidad(); // Aqui asignamos el valor a la propiedad codlocalidad de datos
-		//En funcion del codigo de localidad actualizado, actualizo la localidad con el switch / case:
+        datos.codlocalidad = actualizarCodLocalidad();
 			switch (datos.codlocalidad) {
 			case 'G':	datos.localidad = 'Guaymallen'; break;
 			case 'H':	datos.localidad = 'Las Heras';	break;
@@ -222,8 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			case 'Z':	datos.localidad = 'San Rafael';	break;
 			default:	datos.localidad = 'Guaymallen';		
 		}
-        //console.log('239: codlocalidad actualizado:', datos.codlocalidad);
-		//console.log('240: localidad actualizada:', datos.codlocalidad);
+
     });
 });
 
@@ -260,14 +149,6 @@ function actualizarContador() {
 }
 
 
-
-
-
-
-
-
-//Funcion para asignarle al sub_item1 el valor de AMMT seleccionado
-
  function actualizar_subitem_ammt() {
     //var codlocalidad = '';
 	var subitem1 = selectedOption ? selectedOption.value : '1'; // Valor predeterminado '1' para 'Guaymallen'
@@ -281,7 +162,7 @@ function actualizarContador() {
 			case '5': subitem1 = 'Celda'; 			break;
 			case '6': subitem1 = 'Acoplamiento';	break;
 			default:  subitem1 = 'Cuchillas';	//pongo como default el primero del menu desplegable
-		}   //console.log('subitem1:', subitem1);
+		}  
     return subitem1;
 }
 
@@ -295,8 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function guardarJSON(){
-			var datosJSON = JSON.stringify(datos); // Convertir el objeto datos a una cadena JSON
-			// Verificar si datosJSON es un JSON valido
+			var datosJSON = JSON.stringify(datos);
 			try {
 			JSON.parse(datosJSON);
 			console.log('datos es un JSON valido: ', datosJSON);
@@ -322,9 +202,9 @@ function guardarJSON(){
 
 
 
-
 function cargaDatosComunes() {
-
+	
+        var novdd = document.getElementById("novedad").value;
 		var expediente = document.getElementById("expediente").value;
 		var sector = document.getElementById("sector").value;
         var refelectrica = document.getElementById("refelectrica").value;
@@ -333,9 +213,13 @@ function cargaDatosComunes() {
         var nis = document.getElementById("nis").value;
 		var direccion = document.getElementById("direccion").value;
 		var coordenadas = document.getElementById("coordenadas").value;
-		var observaciones = document.getElementById("observaciones").value;
+		var observaciones1 = document.getElementById("observaciones1").value;
+        var observaciones2 = document.getElementById("observaciones2").value;
+        var observaciones3 = document.getElementById("observaciones3").value;
+        var observaciones4 = document.getElementById("observaciones4").value;
 
         // Actualizo el objeto 'datos'
+        datos.novdd = novdd;
         datos.expediente = expediente;
         datos.sector = sector;
         datos.refelectrica = refelectrica;
@@ -344,8 +228,10 @@ function cargaDatosComunes() {
         datos.nis = nis;
 		datos.direccion = direccion;
 		datos.coordenadas = coordenadas;
-		datos.observaciones = observaciones;
-		
+        if      (datos.item == 'SETA')   { datos.observaciones = observaciones1; }
+		else if (datos.item == 'AMMT')   { datos.observaciones = observaciones2; }
+		else if (datos.item == 'CCAS')   { datos.observaciones = observaciones3; }
+        else if (datos.item == 'EMPA')   { datos.observaciones = observaciones4; }
 		datos.idnum = leer_id();
 }
 
@@ -354,14 +240,6 @@ function cargaDatosComunes() {
 
 
 
-
-
-
-
-
-
-// **** Funciones para manejar los menu de CAS ****
-//Funcion para habilitar el desplegable de seleccion de neutro cuando se elige BT.
 document.addEventListener('DOMContentLoaded', function() {
   const nivelTensionSelect = document.getElementById('nivel-tension');
 
@@ -372,14 +250,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var select = document.getElementById("nivel-tension");
   var options=document.getElementsByTagName("option");
   console.log(select.value);
-  //console.log(options[select.value-1].innerHTML);
-    if (select.value === 'BT') { // Si se selecciona 'BT'
+ 
+    if (select.value === 'BT') { 
         seccionNeutroContainer.classList.remove('hidden');	} 
 	else {	seccionNeutroContainer.classList.add('hidden');	}
   });
 });
 
-//Funcion para esconder nivel de tension cuando se seleccione Tetrapolar, y evitar que quede elegido tetrapolar y puedan cambiar a MT o AT.
+
 document.addEventListener('DOMContentLoaded', function() {
 	const cantidadDePolos = document.getElementById('cantidad-polos');
 
@@ -406,29 +284,18 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('enviarQuery').addEventListener('click', function() {
-    // Actualizar el contador leido anteriormente
+   
 	document.getElementById('campos_item_2').classList.remove('hidden');
     document.getElementById('campos_item_2').classList.add('aside');
     document.getElementById('campos_item_1').classList.add('hidden');
     document.getElementById('campos_item_3').classList.add('hidden');
 	console.log("514: home.js enviarQuery ");
 	
-	
-	//dialogoCodigos();
     actualizarCodLocalidad();
 	
 
     });
 });
-
-
-
-
-/*********************
-Funciones jQuery para
-los pop up windows
-**********************/
-
 
   
 //Funcion para el pop up de sin privilegios para generar codigos.
@@ -460,19 +327,13 @@ function dialogoPrivilegios() {
   });
 }
 
-// Llamar a la funcion para configurar el dialogo
+
 document.addEventListener('DOMContentLoaded', function() {
     dialogoPrivilegios();
 });
 
 
 
-
-
-
-
-
-//Funcion para el pop up que muestra el codigo generado.
 function dialogoCodigos() {
   $(document).ready(function() {
     $("#codigos").dialog({
@@ -492,9 +353,9 @@ function dialogoCodigos() {
 		if(	(usuario != 'guest') && (usuario != 'invitado') )
 		{
 			
-	  document.getElementById("msg-popup-codigos").innerHTML = "Codigo generado: " + datos.codigo; // Actualiza el texto con el valor de datos.codigo
+	  document.getElementById("msg-popup-codigos").innerHTML = "Codigo generado: " + datos.codigo; 
 	  console.log("606: datos.codigo: ", datos.codigo);
-      //$("#codigos").dialog("open");		//muestra el cuadro de dialogo
+    
 		}
     });
 
@@ -509,12 +370,7 @@ function dialogoCodigos() {
 })
   };
 
-// Llamar a la funcion para configurar el dialogo
 
 document.addEventListener('DOMContentLoaded', function() {
     dialogoCodigos();
 });
-
-
-
-
