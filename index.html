@@ -4,9 +4,7 @@ session_set_cookie_params(0);
 
 session_start();
 
-// Verifico si la sesion esta iniciada
 if (!isset($_SESSION['usuario'])) {
-    // Si no hay una sesion iniciada, redireccionar al formulario de inicio de sesion
     header("Location: index.php");
     exit();
 }
@@ -34,12 +32,6 @@ if (!isset($_SESSION['usuario'])) {
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 
-    <!-- JavaScript para forzar la recarga de la pagina al cerrar la ventana -->
-    <!--  <script>  var xhr = new XMLHttpRequest();  ......  </script>    -->
-	<!--  <script>    window.onload = function() { checkResolution(); };  ...... </script> -->
-<!-- Leo el numero de solicitud de la base de datos, y le sumo 1 cada vez que se carga la pagina. </script> -->
-
-<!-- Tuve que poner el estilo de imagen de fondo aqui, porque el servidor de github no lee el img con el css -->
 <style>
 body {
 background-image: url("img/bg-home.jpg");
@@ -57,8 +49,6 @@ background-image: url("img/bg-home.jpg");
 <!-- Contenedor principal del sitio -->
 <div class="row">
 
-    <!-- Columna para el menu lateral izquierdo en pantallas grandes (col-3) y en dispositivos pequenos (col-s-3) -->
-    <!--  <div class="col-2-3 col-s-3 menu">   -->
     <div class="col-2-5 col-s-2-5 menu">
         <ul>
             <!-- Elementos del menu lateral izquierdo -->
@@ -73,9 +63,6 @@ background-image: url("img/bg-home.jpg");
             <li><button class="btn boton-send green" id="enviarQuery">GENERAR CODIGO</button></li>        
         </ul>
     </div>
-
-    <!-- Columna principal del contenido en pantallas grandes (col-6) y en dispositivos pequenos (col-s-9) -->
-    <!--  <div class="col-6 col-s-9">   -->
 
     <!--  C O N T E N E D O R    C E N T R A L  -->
     <div class="col-4-5 col-s-6">
@@ -114,8 +101,6 @@ background-image: url("img/bg-home.jpg");
         </div>
     </div>
 
-    <!-- Columna para la barra lateral derecha en pantallas grandes (col-3) y en dispositivos pequenos (col-s-12) -->
-    <!--  <div class="col-3 col-s-12">   -->
     <div class="col-4-5 col-s-6 margen-vertical">
         <!--
         <div class="aside">
@@ -185,7 +170,7 @@ background-image: url("img/bg-home.jpg");
                         </select>
                     </div>
 
-                    <!--	 <div id="nivel-tension" class="input-container-aside"><p>Nivel de tension:</p><select class="desplegable">     -->
+        
                     <div class="input-container-aside"><p>Nivel de tension:</p><select id="nivel-tension" class="desplegable">
                         <option value="MT">MT</option>
                         <option value="BT">BT</option>
@@ -271,9 +256,7 @@ background-image: url("img/bg-home.jpg");
         <textarea id="observaciones5" class="input-textarea" rows="5" maxlength="300" placeholder="(Opcional, hasta 300 caracteres)"></textarea>
         </div>
         </div>
-      <!-- <button id="enviarUsuario">Enviar Usuario</button>  -->
-
-
+ 
     
     
   </div>
@@ -339,60 +322,7 @@ document.getElementById('enviarQuery').addEventListener('click', function() {
 	
 if(	(usuario != 'guest') && (usuario != 'invitado') )
 {
-	
-	//datos.idnum = leer_id();
-	
-	//todo este codigo lo dejo comentado para el demo.
-	/*
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'obtener_contador.php?codlocalidad=' + datos.codlocalidad, false); // Solicitud sincronica
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var contador = parseInt(xhr.responseText);
-
-				console.log('Codigo actualizado:', datos.codigo);
-
-                // Actualizar el contador en la base de datos
-                actualizarContador();
-				
-				cargaDatosComunes();
-
-                var xhrEnviar = new XMLHttpRequest();
-                xhrEnviar.open('POST', 'actualizar_db.php', false);
-                xhrEnviar.setRequestHeader('Content-Type', 'application/json');
-
-                console.log("Datos a enviar:", datos); //debug
-				
-				guardarJSON();	//llama la funcion guardarJSON que esta en home.js
-
-                xhrEnviar.onreadystatechange = function() {
-                    if (xhrEnviar.readyState === XMLHttpRequest.DONE) {
-                        if (xhrEnviar.status === 200) {
-                            console.log('Datos enviados correctamente');
-                            document.getElementById("status-display").innerHTML = "Datos enviados correctamente";
-                        } else {
-                            console.error('Error al enviar datos');
-                        }
-                    }
-                };
-                xhrEnviar.send(JSON.stringify(datos));
-            } else {
-                console.error('Error al obtener el contador');
-            }
-        }
-    };
-    xhr.send();
-	*/
-	
-	//Forma super facil de mostrar un popup con un dato (ver curso JS CISCO)
-	//window.alert("Codigo generado:  ***  " + datos.codigo +"  ***");	
-	//window.open('popup.html', '', 'popup=true');    //codigo para abrir un html en ventana nueva, muy bueno
-	
-	//dialogoCodigos();
-	
-	
+		
 	$(document).ready(function() {
     dialogoCodigos(); // Llamar a la funcion para configurar el dialogo
     $("#codigos").dialog("open"); // Abrir el dialogo automaticamente
@@ -416,10 +346,6 @@ else{
 
 
 <div id="privilegios" title="ATENCION" style="display: none;">
-<!--
-<p id="msg-popup" >ATENCION: No tiene privilegios para generar codigos</p>
--->
-<!-- tuve que incrustar estilo en la linea porque no carga en el CSS, verlo luego. -->
 <p id="msg-popup-atencion" style="font-size: 0.85em; padding-bottom: 20px;">No tiene privilegios para generar codigos</p>
 
   <button id="cerrar-button" class="boton blue">Cerrar</button>
